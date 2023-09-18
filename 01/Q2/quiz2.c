@@ -78,7 +78,10 @@ int main(int argc, char **argv)
 	build_table(fdata, table);
 
 	while (fscanf(fin, "%d", &x) == 1) {
-		f(table, x, y);
+		if (x == 0)
+			y[0] = table[0];
+		else
+			f(table, x, y);
 		fprintf(fout, "%s\n", y);
 	};
 
