@@ -5,6 +5,28 @@
 #define OUTPUT	"output.txt"
 #define INPUT	"input.txt"
 
+void find_square(int n, int m, FILE *fout) {
+	int ans;
+
+	/*
+	 * The edge of the largest square should equal to the min edge
+	 * of input paper size.
+	 */
+	while (n != m) {
+		if (n > m) {
+			ans = m;
+			n -= ans;
+		} else {
+			ans = n;
+			m -= ans;
+		}
+		fprintf(fout, "%dx%d, ", ans, ans);
+	}
+
+	/* If n == m, output the square and return */
+	fprintf(fout, "%dx%d\n", n, m);
+}
+
 int main(int argc, char **argv)
 {
 	FILE *fin, *fout;
@@ -22,14 +44,9 @@ int main(int argc, char **argv)
 		goto err_out;
 	}
 
-	while(fscanf(fin, "N=%d, M=%d\n", &n, &m) == 2) {
-		/*
-		 * The edge of the largest square should equal to the min edge
-		 * of input paper size.
-		 */
-		ans = n < m ? n : m;
-		fprintf(fout, "%dx%d\n", ans, ans);
-	}
+	/* Read input continuously */
+	while(fscanf(fin, "N=%d, M=%d\n", &n, &m) == 2)
+		find_square(n, m, fout);
 
 	fclose(fout);
 	fclose(fin);
