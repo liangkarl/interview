@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <errno.h>
 
+/* total amount of digits, lower and upper case letters */
 #define N	62
 #define OUTPUT	"output.txt"
 #define INPUT	"input.txt"
@@ -12,7 +13,6 @@ int build_table(FILE *fdata, char *table)
 	int x, i;
 	char y[4];
 
-	/* Rebuild the table from decimal number to 62-based number. */
 	while (fscanf(fdata, "%d\t%s\n", &x, y) == 2) {
 		table[x % N] = y[2];
 		table[x / N % N] = y[1];
@@ -20,8 +20,9 @@ int build_table(FILE *fdata, char *table)
 	}
 
 	/*
+	 * https://docs.google.com/spreadsheets/d/1MmruzOui-GdlbqTF2s74VERX_5c_eT2VkXhGK5BUDUg/edit?usp=sharing
 	 * In the spreadsheet, there is no sample for y=f(21), but it's
-	 * easy to find out that f(21)=5
+	 * easy to find out that f(21)=5 as there is only one left.
 	 */
 	table[21] = '5';
 
@@ -75,6 +76,7 @@ int main(int argc, char **argv)
 		goto err_out;
 	}
 
+	/* Rebuild a table for decimal number to 62-based number. */
 	build_table(fdata, table);
 
 	while (fscanf(fin, "%d", &x) == 1) {
